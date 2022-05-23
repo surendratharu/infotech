@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ app</title>
+</head>
+
+    <script>
+        var pos=0, test, test_status, question, choice, choices, chA, chB, chC, chD, correct=0;
+        var questions= [
+            ["A relational database consists of a collection of ..","Tables","Fields","Records","Keys","A"],
+            ["The term ......is used to refer to a row","Attribute","Fields","Tuple","Instance","C"],
+            ["Which of the following is not a DDL command?","UPDATE","TRUNCATE","ALTER","None of above","A"],
+            ["Which SQL keyword is used to retrieve a maximum value","MOST","TOP","MAX","UPPER","C"]
+        ];
+        function _(MCQ){
+            return dodument.getElementById(MCQ);
+        }
+        function renderQuestion(){
+            test=("test");
+            if (pos >=questions.length)
+            {
+                test.innerHTML="<h2> <center> You Got Score: "+(correct/questions.length)*100+"%"+"<br>"+"Number of Correct Questions is:"+correct+"<br>"+"Total Number of Questions is: "+_("test_status").innerHTML="<center> Test is completed</center>";
+                    pos=0;
+                    correct=0;
+                    return false; 
+            }
+            _("test_status").innerHTML="Question "+(pos+1)+" of "+questions.length;
+            question=questions[pos][0];
+            chA=questions[pos][1];
+            chB=questions[pos][2];
+            chC=questions[pos][3];
+            chD=questions[pos][4];
+            test.innerHTML="<h3>"+"Question: "+(pos+1)+") "+question+"</h3>";
+            test.innerHTML+="<input type='radio' name='choices' value='A'"+chA+"<br>";
+            test.innerHTML+="<input type='radio' name='choices' value='A'"+chB+"<br>";
+            test.innerHTML+="<input type='radio' name='choices' value='A'"+chC+"<br>";
+            test.innerHTML+="<input type='radio' name='choices' value='A'"+chD+"<br><br>";
+            test.innerHTML+="<button onclick='checkAnswer()'> Save and Next Question </button>"+"  ";
+            test.innerHTML+="<button onclick='back()'> Previous question </button>";
+        }
+        function back(){
+            choices=document.getElementsByName("choices");
+            for(var i=0; i<choices.length;i++){
+                if(choices[i].checked){
+                    choice=choices[i].value;
+                }
+            }
+            if(choice==questions[pos][5]){
+                correct--;
+            }
+            if(pos>0)
+            {
+                pos--;
+            }
+            else{
+                pos;
+            }
+
+            renderQuestion();
+        }
+
+        function checkAnswer(){
+            choices=document.getElementsByName("choices");
+            for(var i=0; i<choices.length;i++){
+                if(choices[i].checked){
+                    choice=choices[i].value;
+                }
+            }
+            if(choice==questions[pos][5]){
+                correct++;
+            }
+            pos++;
+            renderQuestion();
+        }
+        window.addEventListener("load",renderQuestion,false);
+    </script>
+    <body>
+    <h2 id="test_status"></h2>
+    <div id="test"></div>
+</body>
+</html>
